@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngawal - South Sudan Online Shopping</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ngawal-primary': '#1a365d',
+                        'ngawal-secondary': '#2c5282',
+                        'ngawal-accent': '#ed8936',
+                        'ngawal-light': '#e2e8f0',
+                        'ngawal-dark': '#0f172a',
+                        'ngawal-success': '#10b981',
+                        'ngawal-warning': '#f59e0b',
+                        'ngawal-error': '#ef4444',
+                        'mtn-yellow': '#FFCC00',
+                        'mtn-brown': '#993300',
+                        'chatbot-bg': '#1a365d',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        .mtn-gradient {
+            background: linear-gradient(135deg, #FFCC00 0%, #993300 100%);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-success-animation {
+            animation: paymentSuccess 2s ease-in-out;
+        }
+        
+        @keyframes paymentSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .payment-pulse {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 204, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
+        }
+        
+        .shake-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: width 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9998;
+        }
+        
+        .chatbot-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chatbot-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            transform: translateY(20px) scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-window.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .message.bot {
+            background: #f1f5f9;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message.user {
+            background: #1a365d;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-input input:focus {
+            border-color: #1a365d;
+            box-shadow: 0 0 0 2px rgba(26, 54, 93, 0.1);
+        }
+        
+        .send-button {
+            width: 40px;
+            height: 40px;
+            background: #1a365d;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .send-button:hover {
+            background: #2c5282;
+            transform: scale(1.1);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 15px;
+            background: #f1f5f9;
+            border-radius: 18px;
+            align-self: flex-start;
+            width: fit-content;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #64748b;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Rating Stars */
+        .rating-stars {
+            display: flex;
+            direction: ltr;
+        }
+        
+        .rating-stars input {
+            display: none;
+        }
+        
+        .rating-stars label {
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 0 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label,
+        .rating-stars input:checked ~ label {
+            color: #f59e0b;
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Rating Modal */
+        .rating-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+        
+        .rating-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge-new {
+            background-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.location.href='index.html'">
+                    <img src="images/Logo.png" alt="Ngawal Logo" class="w-10 h-10 object-contain">
+                    <div class="hidden sm:block">
+                        <h1 class="text-xl font-bold text-ngawal-primary">Ngawal</h1>
+                        <p class="text-xs text-ngawal-secondary">South Sudan Online Shopping</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Search -->
+                <div class="hidden md:block flex-1 max-w-2xl mx-8">
+                    <div class="relative">
+                        <input type="text" id="desktopSearch" 
+                               class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ngawal-accent"
+                               placeholder="Search for electronics, groceries, clothing..."
+                               onkeyup="searchProducts(event)">
+                        <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Rate Services Button -->
+                    <button onclick="showRatingModal()" class="hidden md:flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg transition-all">
+                        <div class="w-8 h-8 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-ngawal-primary">Rate Us</span>
+                    </button>
+                    
+                    <!-- Cart -->
+                    <div class="relative">
+                        <button onclick="openCart()" class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+                            <i class="fas fa-shopping-cart text-xl text-ngawal-primary"></i>
+                            <span id="cartBadge" class="absolute -top-1 -right-1 bg-ngawal-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Wishlist -->
+                    <div class="relative">
+                        <button onclick="showWishlist()" class="p-2 hover:bg-gray-100 rounded-lg transition-all hidden md:block">
+                            <i class="fas fa-heart text-xl text-ngawal-primary"></i>
+                            <span id="wishlistBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Account -->
+                    <div class="hidden md:block">
+                        <button onclick="showAccount()" class="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg transition-all">
+                            <div class="w-8 h-8 bg-ngawal-primary text-white rounded-full flex items-center justify-center">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="text-ngawal-primary">Account</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Menu -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-all">
+                        <i class="fas fa-bars text-xl text-ngawal-primary"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Search -->
+            <div id="mobileSearch" class="mt-3 md:hidden hidden">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" 
+                           class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ngawal-accent"
+                           placeholder="Search products..."
+                           onkeyup="searchProducts(event)">
+                    <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categories -->
+        <nav class="border-t border-gray-200">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between py-2 overflow-x-auto no-scrollbar">
+                    <div class="flex space-x-4 md:space-x-6">
+                        <button onclick="filterByCategory('all')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent active" data-category="all">
+                            <i class="fas fa-th-large mr-2"></i>All
+                        </button>
+                        <button onclick="filterByCategory('electronics')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="electronics">
+                            <i class="fas fa-laptop mr-2"></i>Electronics
+                        </button>
+                        <button onclick="filterByCategory('fashion')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="fashion">
+                            <i class="fas fa-tshirt mr-2"></i>Fashion
+                        </button>
+                        <button onclick="filterByCategory('food')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="food">
+                            <i class="fas fa-utensils mr-2"></i>Food
+                        </button>
+                        <button onclick="filterByCategory('home')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="home">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </button>
+                        <button onclick="filterByCategory('beauty')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="beauty">
+                            <i class="fas fa-spa mr-2"></i>Beauty
+                        </button>
+                        <button onclick="filterByCategory('sports')" class="category-btn px-3 py-2 text-sm font-medium text-ngawal-primary hover:text-ngawal-accent whitespace-nowrap transition-all border-b-2 border-transparent hover:border-ngawal-accent" data-category="sports">
+                            <i class="fas fa-football-ball mr-2"></i>Sports
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-ngawal-primary">Menu</h2>
+                <button onclick="toggleMobileMenu()" class="p-2">
+                    <i class="fas fa-times text-xl text-gray-600"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <a href="account.html" class="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg">
+                    <div class="w-10 h-10 bg-ngawal-primary text-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="text-ngawal-primary">My Account</span>
+                </a>
+                
+                <a href="wishlist.html" class="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg">
+                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <span class="text-ngawal-primary">Wishlist</span>
+                    <span id="mobileWishlistBadge" class="ml-auto bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+                </a>
+                
+                <button onclick="showRatingModal()" class="w-full flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg">
+                    <div class="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="text-ngawal-primary">Rate Our Service</span>
+                </button>
+                
+                <a href="become-seller.html" class="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg">
+                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <span class="text-ngawal-primary">Become a Seller</span>
+                </a>
+                
+                <div class="pt-6 border-t">
+                    <h3 class="font-bold text-gray-700 mb-3">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="#help" class="block p-2 hover:bg-gray-100 rounded">Help Center</a>
+                        <a href="#contact" class="block p-2 hover:bg-gray-100 rounded">Contact Us</a>
+                        <a href="#about" class="block p-2 hover:bg-gray-100 rounded">About Ngawal</a>
+                        <a href="#terms" class="block p-2 hover:bg-gray-100 rounded">Terms & Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-6">
+        <!-- Hero Section -->
+        <section class="mb-8 bg-gradient-to-r from-ngawal-primary to-ngawal-secondary rounded-2xl p-6 md:p-10 overflow-hidden relative animate-fadeInUp">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0 animate-fadeInLeft">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Shop Local in South Sudan</h1>
+                    <p class="text-white/90 mb-6 text-lg">Ngawal connects buyers and sellers across South Sudan. Enjoy simple shopping with cash on delivery and M-Gurush mobile money payments.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="scrollToProducts()" class="bg-ngawal-accent hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150 animate-pulse">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Start Shopping
+                        </button>
+                        <a href="become-seller.html" class="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center border border-white/30 shadow focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150 hover-lift">
+                            <i class="fas fa-store mr-2"></i>
+                            Sell on Ngawal
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center animate-fadeInRight">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 bg-white rounded-full flex items-center justify-center shadow-2xl animate-float">
+                            <div class="text-center p-6">
+                                <div class="w-20 h-20 bg-ngawal-primary rounded-lg flex items-center justify-center mx-auto mb-4 animate-pulse">
+                                    <span class="text-white font-bold text-3xl">N</span>
+                                </div>
+                                <p class="text-xl md:text-2xl font-bold text-ngawal-primary">Online Shopping</p>
+                                <p class="text-sm mt-2 text-ngawal-accent font-medium">South Sudan's Marketplace</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted By Section -->
+        <section class="bg-white py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <h2 class="text-center text-lg/8 font-semibold text-gray-900">Trusted by South Sudan's leading businesses</h2>
+                <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                    <div class="col-span-2 max-h-12 w-full flex items-center justify-center lg:col-span-1">
+                        <div class="w-20 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-center">
+                                <i class="fas fa-city text-white text-xl mb-1"></i>
+                                <span class="text-white font-bold text-sm">JUBA</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 max-h-12 w-full flex items-center justify-center lg:col-span-1">
+                        <div class="w-20 h-12 bg-gradient-to-br from-green-600 to-green-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-center">
+                                <i class="fas fa-building text-white text-xl mb-1"></i>
+                                <span class="text-white font-bold text-sm">WAU</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 max-h-12 w-full flex items-center justify-center lg:col-span-1">
+                        <div class="w-20 h-12 bg-gradient-to-br from-orange-600 to-orange-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-center">
+                                <i class="fas fa-map-marker-alt text-white text-xl mb-1"></i>
+                                <span class="text-white font-bold text-sm">MAL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 max-h-12 w-full flex items-center justify-center sm:col-start-2 lg:col-span-1">
+                        <div class="w-20 h-12 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-center">
+                                <i class="fas fa-microchip text-white text-xl mb-1"></i>
+                                <span class="text-white font-bold text-sm">TECH</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 col-start-2 max-h-12 w-full flex items-center justify-center sm:col-start-auto lg:col-span-1">
+                        <div class="w-20 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-center">
+                                <i class="fas fa-shopping-bag text-white text-xl mb-1"></i>
+                                <span class="text-white font-bold text-sm">SHOP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Categories -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-ngawal-primary mb-6">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <button onclick="filterByCategory('electronics')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Electronics</span>
+                </button>
+                
+                <button onclick="filterByCategory('fashion')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Fashion</span>
+                </button>
+                
+                <button onclick="filterByCategory('food')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Food & Grocery</span>
+                </button>
+                
+                <button onclick="filterByCategory('home')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Home & Living</span>
+                </button>
+                
+                <button onclick="filterByCategory('beauty')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Beauty</span>
+                </button>
+                
+                <button onclick="filterByCategory('sports')" class="category-card bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all text-center hover-lift border-2 border-transparent hover:border-ngawal-accent">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fas fa-football-ball"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Sports</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h2 class="text-2xl md:text-3xl font-bold text-ngawal-primary">Featured Products</h2>
+                <div class="flex flex-wrap gap-2">
+                    <select onchange="sortProducts(this.value)" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent text-sm bg-white">
+                        <option value="default">Sort by: Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                    <select onchange="filterByLocation(this.value)" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent text-sm bg-white">
+                        <option value="all">All Locations</option>
+                        <option value="juba">Juba</option>
+                        <option value="wau">Wau</option>
+                        <option value="malakal">Malakal</option>
+                        <option value="rumbek">Rumbek</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button onclick="loadMoreProducts()" id="loadMoreBtn" class="bg-white border border-ngawal-primary text-ngawal-primary hover:bg-ngawal-primary hover:text-white font-semibold py-3 px-8 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                    <i class="fas fa-plus mr-2"></i>Load More Products
+                </button>
+            </div>
+        </section>
+
+        <!-- Payment Methods Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-ngawal-primary mb-8 text-center">Secure Payment Methods</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="showCODInfo()" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center hover-lift cursor-pointer">
+                    <div class="w-16 h-16 bg-ngawal-primary text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ngawal-primary mb-2">Cash on Delivery</h3>
+                    <p class="text-gray-600">Pay when you receive your order in major cities.</p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                            Available Nationwide
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- M-Gurush Payment Method -->
+                <div onclick="showMGurushPaymentModal()" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center hover-lift cursor-pointer">
+                    <div class="w-16 h-16 mtn-gradient text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-ngawal-primary mb-2">M-Gurush (MTN)</h3>
+                    <p class="text-gray-600">Secure mobile money payments via MTN M-Gurush.</p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 bg-mtn-yellow/20 text-mtn-brown text-xs font-semibold rounded-full">
+                <button onclick="showMGurushPaymentModal()" class="mtn-gradient text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center mx-auto shadow-lg focus:outline-none focus:ring-2 focus:ring-mtn-yellow focus:ring-offset-2 active:scale-95 transition-all duration-150 hover:opacity-90 payment-pulse">
+                    <i class="fas fa-mobile-alt mr-2"></i>
+                    Try M-Gurush Payment Demo
+                </button>
+                <p class="text-sm text-gray-600 mt-2">Experience our secure mobile money payment system</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Location Map Modal -->
+    <div id="mapModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 id="mapTitle" class="text-xl font-bold text-ngawal-primary">Location Map</h3>
+                    <button onclick="closeMapModal()" class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+                        <i class="fas fa-times text-xl text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="mapContainer" class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-map-marked-alt text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600">Loading map...</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <span id="locationInfo">Location information will be displayed here.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform flex flex-col">
+        <div class="p-6 flex-1 overflow-y-auto custom-scrollbar">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-ngawal-primary">Your Cart</h3>
+                <button onclick="closeCart()" class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+                    <i class="fas fa-times text-xl text-gray-600"></i>
+                </button>
+            </div>
+            
+            <!-- Cart Items -->
+            <div id="cartItems" class="space-y-4">
+                <!-- Cart items will be loaded here -->
+            </div>
+            
+            <!-- Empty Cart -->
+            <div id="emptyCart" class="text-center py-12">
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shopping-cart text-3xl text-gray-400"></i>
+                </div>
+                <p class="text-gray-600">Your cart is empty</p>
+                <p class="text-sm text-gray-500 mt-1">Add some products to get started</p>
+            </div>
+        </div>
+        
+        <!-- Cart Footer -->
+        <div class="border-t border-gray-200 p-6">
+            <div id="cartSummary">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="font-medium" id="cartSubtotal">0 SSP</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Delivery Fee</span>
+                        <span class="font-medium" id="cartDelivery">0 SSP</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold pt-2 border-t">
+                        <span class="text-ngawal-primary">Total</span>
+                        <span class="text-ngawal-accent" id="cartTotal">0 SSP</span>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 mb-3">
+                    <button onclick="checkoutWithCOD()" class="flex-1 bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                        <i class="fas fa-money-bill-wave mr-2"></i>COD
+                    </button>
+                    <button onclick="checkoutWithMGurush()" class="flex-1 mtn-gradient text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-mtn-yellow focus:ring-offset-2 active:scale-95 transition-all duration-150 hover:opacity-90">
+                        <i class="fas fa-mobile-alt mr-2"></i>M-Gurush
+                    </button>
+                </div>
+            </div>
+            <button onclick="closeCart()" class="w-full border border-ngawal-primary text-ngawal-primary hover:bg-ngawal-primary hover:text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot-container">
+        <div onclick="toggleChatbot()" class="chatbot-icon">
+            <i class="fas fa-robot"></i>
+            <div class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full animate-pulse"></div>
+        </div>
+        
+        <div id="chatbotWindow" class="chatbot-window">
+            <div class="chatbot-header">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Ngawal Assistant</h3>
+                        <p class="text-xs opacity-80">AI-powered customer support</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-white/80 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="chatbotMessages" class="chatbot-messages custom-scrollbar">
+                <div class="message bot">
+                    <p>👋 Hello! I'm Ngawal Assistant, your AI shopping companion. How can I help you today?</p>
+                    <div class="text-xs text-gray-500 mt-1">Just now</div>
+                </div>
+                <div class="message bot">
+                    <p>I can help you with:</p>
+                    <ul class="text-sm mt-2 space-y-1">
+                        <li>• Order status & tracking</li>
+                        <li>• Product recommendations</li>
+                        <li>• Payment assistance</li>
+                        <li>• Service complaints</li>
+                        <li>• General inquiries</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                <button onclick="sendMessage()" class="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div id="ratingModal" class="rating-modal hidden">
+        <div class="rating-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-ngawal-primary">Rate Our Services</h3>
+                <button onclick="closeRatingModal()" class="p-2 hover:bg-gray-100 rounded-lg">
+                    <i class="fas fa-times text-xl text-gray-600"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-medium text-gray-700 mb-3">Overall Experience</h4>
+                    <div class="rating-stars" id="overall-rating">
+                        <input type="radio" id="overall-star5" name="overall" value="5">
+                        <label for="overall-star5" title="Excellent"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="overall-star4" name="overall" value="4">
+                        <label for="overall-star4" title="Very Good"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="overall-star3" name="overall" value="3">
+                        <label for="overall-star3" title="Good"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="overall-star2" name="overall" value="2">
+                        <label for="overall-star2" title="Fair"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="overall-star1" name="overall" value="1">
+                        <label for="overall-star1" title="Poor"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block font-medium text-gray-700 mb-2">Your Review</label>
+                    <textarea id="reviewText" 
+                              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent"
+                              rows="4"
+                              placeholder="Share your experience with Ngawal..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block font-medium text-gray-700 mb-2">What can we improve?</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2 rounded text-ngawal-accent focus:ring-ngawal-accent">
+                            <span>Delivery speed</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2 rounded text-ngawal-accent focus:ring-ngawal-accent">
+                            <span>Product quality</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2 rounded text-ngawal-accent focus:ring-ngawal-accent">
+                            <span>Customer service</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2 rounded text-ngawal-accent focus:ring-ngawal-accent">
+                            <span>Website experience</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button onclick="submitDetailedReview()" class="flex-1 bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                        <i class="fas fa-star mr-2"></i>Submit Review
+                    </button>
+                    <button onclick="closeRatingModal()" class="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-4 rounded-lg transition-all">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notificationToast" class="fixed top-4 right-4 z-50 max-w-sm transform translate-x-full transition-transform">
+        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-ngawal-accent">
+            <div class="flex items-start">
+                <div id="notificationIcon" class="mr-3 mt-1">
+                    <i class="fas fa-info-circle text-ngawal-accent text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <p id="notificationTitle" class="font-medium text-ngawal-primary"></p>
+                    <p id="notificationMessage" class="text-sm text-gray-600 mt-1"></p>
+                </div>
+                <button onclick="hideNotification()" class="ml-3 text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-ngawal-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-ngawal-primary rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">N</span>
+                        </div>
+                        <h3 class="text-xl font-bold">Ngawal</h3>
+                    </div>
+                    <p class="text-gray-400">South Sudan's premier online marketplace connecting buyers and sellers nationwide.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="become-seller.html" class="text-gray-400 hover:text-white transition-colors">Sell on Ngawal</a></li>
+                        <li><button onclick="showRatingModal()" class="text-gray-400 hover:text-white transition-colors">Rate Our Services</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Customer Service</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="showHelpSupport()" class="text-gray-400 hover:text-white transition-colors">Help Center</button></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><button onclick="toggleChatbot()" class="text-gray-400 hover:text-white transition-colors">Chat with AI Assistant</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <p class="text-gray-400">Email: support@ngawal.com</p>
+                    <p class="text-gray-400">Phone: +211 123 456 789</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Ngawal Online Shopping. All rights reserved.</p>
+                <p class="text-sm mt-2">Partnered with MTN M-Gurush for secure mobile payments</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================
+        // STATE MANAGEMENT
+        // ============================
+        let cart = JSON.parse(localStorage.getItem('ngawal_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('ngawal_wishlist')) || [];
+        let currentProductId = null;
+        let cartTotal = 0;
+        let chatbotOpen = false;
+        let conversationHistory = [];
+        let currentProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+
+        // Product Database with 24 products
+        const productsData = [
+            // Electronics
+            { id: 1, name: "Smartphone X200", store: "Tech Store Juba", price: 15000, category: "electronics", location: "juba", rating: 4.5, ratingCount: 24, image: "📱", badge: "sale", discount: 20 },
+            { id: 2, name: "Laptop Pro 15", store: "Electronics Hub", price: 45000, category: "electronics", location: "juba", rating: 4.7, ratingCount: 42, image: "💻", badge: "new" },
+            { id: 3, name: "Wireless Earbuds", store: "Audio Tech", price: 8000, category: "electronics", location: "wau", rating: 4.3, ratingCount: 18, image: "🎧", badge: "popular" },
+            { id: 4, name: "Smart Watch", store: "Tech Store Juba", price: 12000, category: "electronics", location: "juba", rating: 4.2, ratingCount: 31, image: "⌚", badge: "sale", discount: 15 },
+            
+            // Fashion
+            { id: 5, name: "Leather Jacket", store: "Fashion Hub", price: 8000, category: "fashion", location: "juba", rating: 4.0, ratingCount: 18, image: "🧥" },
+            { id: 6, name: "Running Shoes", store: "Sports Gear", price: 6000, category: "fashion", location: "malakal", rating: 4.5, ratingCount: 21, image: "👟" },
+            { id: 7, name: "Traditional Dress", store: "Local Fashion", price: 5000, category: "fashion", location: "rumbek", rating: 4.8, ratingCount: 15, image: "👗", badge: "popular" },
+            { id: 8, name: "Designer Handbag", store: "Luxury Store", price: 25000, category: "fashion", location: "juba", rating: 4.6, ratingCount: 9, image: "👜", badge: "new" },
+            
+            // Food
+            { id: 9, name: "Rice 50kg Bag", store: "Food Mart", price: 5000, category: "food", location: "juba", rating: 5.0, ratingCount: 32, image: "🍚", badge: "popular" },
+            { id: 10, name: "Fresh Vegetables Box", store: "Farm Fresh", price: 3000, category: "food", location: "wau", rating: 4.4, ratingCount: 27, image: "🥦", badge: "new" },
+            { id: 11, name: "Sugar 25kg", store: "Food Mart", price: 3500, category: "food", location: "malakal", rating: 4.3, ratingCount: 19, image: "🍬" },
+            { id: 12, name: "Cooking Oil 5L", store: "Kitchen Supplies", price: 4000, category: "food", location: "juba", rating: 4.7, ratingCount: 24, image: "🫒", badge: "popular" },
+            
+            // Home
+            { id: 13, name: "Queen Size Mattress", store: "Home Comfort", price: 20000, category: "home", location: "juba", rating: 4.5, ratingCount: 16, image: "🛏️", badge: "sale", discount: 25 },
+            { id: 14, name: "Dining Table Set", store: "Furniture Store", price: 35000, category: "home", location: "juba", rating: 4.6, ratingCount: 8, image: "🍽️", badge: "new" },
+            { id: 15, name: "Electric Kettle", store: "Home Appliances", price: 4500, category: "home", location: "wau", rating: 4.2, ratingCount: 33, image: "♨️", badge: "popular" },
+            { id: 16, name: "Kitchen Utensils Set", store: "Home Store", price: 2500, category: "home", location: "malakal", rating: 4.8, ratingCount: 21, image: "🍴" },
+            
+            // Beauty
+            { id: 17, name: "Skincare Set", store: "Beauty Store", price: 12000, category: "beauty", location: "juba", rating: 4.4, ratingCount: 14, image: "💄", badge: "new" },
+            { id: 18, name: "Hair Care Products", store: "Beauty Hub", price: 7000, category: "beauty", location: "juba", rating: 4.1, ratingCount: 22, image: "💇", badge: "sale", discount: 10 },
+            
+            // Sports
+            { id: 19, name: "Football Kit", store: "Sports World", price: 9000, category: "sports", location: "juba", rating: 4.9, ratingCount: 11, image: "⚽", badge: "popular" },
+            { id: 20, name: "Fitness Equipment", store: "Gym Store", price: 18000, category: "sports", location: "juba", rating: 4.7, ratingCount: 7, image: "🏋️", badge: "new" },
+            
+            // More Electronics
+            { id: 21, name: "Tablet 10-inch", store: "Tech Store Juba", price: 22000, category: "electronics", location: "juba", rating: 4.3, ratingCount: 12, image: "📱", badge: "sale", discount: 15 },
+            { id: 22, name: "Bluetooth Speaker", store: "Audio Tech", price: 5500, category: "electronics", location: "wau", rating: 4.5, ratingCount: 28, image: "🔊", badge: "popular" },
+            
+            // More Fashion
+            { id: 23, name: "Men's Suit", store: "Fashion Hub", price: 18000, category: "fashion", location: "juba", rating: 4.6, ratingCount: 13, image: "👔", badge: "new" },
+            { id: 24, name: "Women's Jewelry Set", store: "Luxury Store", price: 15000, category: "fashion", location: "juba", rating: 4.8, ratingCount: 9, image: "💎", badge: "popular" }
+        ];
+
+        // ============================
+        // INITIALIZATION
+        // ============================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            
+            // Animate M-Gurush card on load
+            setTimeout(() => {
+                const mgurushCard = document.querySelector('[onclick*="showMGurushPaymentModal"]');
+                if (mgurushCard) {
+                    mgurushCard.classList.add('payment-success-animation');
+                    setTimeout(() => {
+                        mgurushCard.classList.remove('payment-success-animation');
+                    }, 2000);
+                }
+            }, 1000);
+            
+            console.log('Website initialized successfully!');
+        });
+
+        function initializeApp() {
+            updateCartDisplay();
+            updateWishlistDisplay();
+            currentProducts = [...productsData];
+            filteredProducts = [...productsData];
+            renderProducts();
+            
+            // Initialize chatbot
+            conversationHistory.push({
+                role: 'bot',
+                message: '👋 Hello! I\'m Ngawal Assistant, your AI shopping companion. How can I help you today?'
+            });
+        }
+
+        // ============================
+        // PRODUCT RENDERING & FILTERING
+        // ============================
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            if (!productsGrid) return;
+            
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+            
+            let productsHTML = '';
+            
+            productsToShow.forEach(product => {
+                const badgeHTML = product.badge ? 
+                    `<span class="product-badge badge-${product.badge}">${getBadgeText(product.badge, product.discount)}</span>` : '';
+                
+                const discountHTML = product.discount ? 
+                    `<span class="line-through text-gray-400 text-sm">${formatCurrency(product.price * (1 + product.discount/100))}</span>` : '';
+                
+                const ratingStars = generateStarRating(product.rating);
+                
+                productsHTML += `
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden hover-lift product-card" data-category="${product.category}" data-location="${product.location}">
+                        <div class="p-4">
+                            <div class="relative">
+                                <div class="w-full h-48 ${getCategoryColor(product.category)} rounded-lg flex items-center justify-center text-4xl mb-4">
+                                    ${product.image}
+                                </div>
+                                ${badgeHTML}
+                            </div>
+                            <h3 class="font-bold text-ngawal-primary mb-1">${product.name}</h3>
+                            <p class="text-sm text-gray-600 mb-2">${product.store} • ${product.location.charAt(0).toUpperCase() + product.location.slice(1)}</p>
+                            
+                            <!-- Product Rating -->
+                            <div class="flex items-center mb-2">
+                                <div class="rating-stars mr-2">
+                                    ${ratingStars}
+                                </div>
+                                <span class="text-xs text-gray-500">${product.rating} (${product.ratingCount})</span>
+                            </div>
+                            
+                            <!-- Rate This Product Button -->
+                            <button onclick="rateProduct(${product.id})" class="w-full mb-3 text-sm text-ngawal-primary hover:text-ngawal-secondary text-left">
+                                <i class="fas fa-star mr-1"></i>Rate this product
+                            </button>
+                            
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <p class="text-lg font-bold text-ngawal-accent">${formatCurrency(product.price)}</p>
+                                    ${discountHTML}
+                                </div>
+                                <button onclick="toggleWishlist(${product.id})" class="p-2 text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-heart ${isInWishlist(product.id) ? 'text-red-500' : ''}"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex justify-between items-center gap-2">
+                                <button onclick="addToCart(${product.id})" class="flex-1 bg-ngawal-accent hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-all text-sm">
+                                    <i class="fas fa-cart-plus mr-2"></i>Add to Cart
+                                </button>
+                                <button onclick="buyWithMGurush(${product.id})" class="flex-1 bg-mtn-yellow hover:bg-yellow-600 text-mtn-brown font-medium py-2 px-4 rounded-lg transition-all text-sm">
+                                    <i class="fas fa-mobile-alt mr-2"></i>Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            productsGrid.innerHTML = productsHTML;
+            
+            // Show/hide load more button
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                if (filteredProducts.length > currentPage * productsPerPage) {
+                    loadMoreBtn.style.display = 'block';
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            }
+        }
+
+        function loadMoreProducts() {
+            currentPage++;
+            renderProducts();
+            showNotification('Loaded more products', 'info');
+        }
+
+        function filterByCategory(category) {
+            // Update active category button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-ngawal-accent');
+                btn.classList.add('border-transparent');
+            });
+            
+            const activeBtn = document.querySelector(`[data-category="${category}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-ngawal-accent');
+                activeBtn.classList.remove('border-transparent');
+            }
+            
+            // Filter products
+            if (category === 'all') {
+                filteredProducts = [...productsData];
+            } else {
+                filteredProducts = productsData.filter(product => product.category === category);
+            }
+            
+            currentPage = 1;
+            renderProducts();
+            
+            // Scroll to products
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterByLocation(location) {
+            if (location === 'all') {
+                filteredProducts = [...productsData];
+            } else {
+                filteredProducts = productsData.filter(product => product.location === location);
+            }
+            
+            currentPage = 1;
+            renderProducts();
+        }
+
+        function sortProducts(sortBy) {
+            switch(sortBy) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    filteredProducts.sort((a, b) => b.id - a.id);
+                    break;
+                default:
+                    filteredProducts = [...productsData];
+            }
+            
+            currentPage = 1;
+            renderProducts();
+        }
+
+        function searchProducts(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            
+            if (searchTerm.length < 2) {
+                filteredProducts = [...productsData];
+                renderProducts();
+                return;
+            }
+            
+            filteredProducts = productsData.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.store.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            
+            currentPage = 1;
+            renderProducts();
+        }
+
+        // ============================
+        // CART FUNCTIONS
+        // ============================
+        function addToCart(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            openCart();
+            showNotification(`${product.name} added to cart!`, 'success');
+            
+            // Notify chatbot about cart activity
+            if (chatbotOpen) {
+                setTimeout(() => {
+                    addChatMessage(`I see you added ${product.name} to your cart. Need help with anything else?`, 'bot');
+                }, 1000);
+            }
+        }
+
+        function openCart() {
+            document.getElementById('cartSidebar').classList.remove('translate-x-full');
+            updateCartSidebar();
+        }
+
+        function closeCart() {
+            document.getElementById('cartSidebar').classList.add('translate-x-full');
+        }
+
+        function updateCartDisplay() {
+            const cartBadge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+
+        function updateCartSidebar() {
+            const cartItems = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+            
+            if (cart.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartSummary.classList.add('hidden');
+                return;
+            }
+            
+            emptyCart.classList.add('hidden');
+            cartSummary.classList.remove('hidden');
+            
+            let subtotal = 0;
+            cartItems.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                return `
+                    <div class="flex items-center bg-gray-50 rounded-lg p-3">
+                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center text-xl mr-3">
+                            ${item.image}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-ngawal-primary">${item.name}</h4>
+                            <p class="text-sm text-gray-600">${formatCurrency(item.price)} each</p>
+                            <div class="flex items-center mt-2">
+                                <button type="button" class="w-6 h-6 flex items-center justify-center border rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="mx-2 font-medium">${item.quantity}</span>
+                                <button type="button" class="w-6 h-6 flex items-center justify-center border rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-ngawal-primary">${formatCurrency(itemTotal)}</p>
+                            <button type="button" class="text-red-600 text-sm mt-2 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash mr-1"></i>Remove
+                            </button>
+                            <button type="button" class="text-blue-600 text-xs mt-2 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded" onclick="reportProduct(${item.id})">
+                                <i class="fas fa-flag mr-1"></i>Report
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            const delivery = subtotal > 0 ? 1000 : 0;
+            const total = subtotal + delivery;
+            
+            document.getElementById('cartSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('cartDelivery').textContent = formatCurrency(delivery);
+            document.getElementById('cartTotal').textContent = formatCurrency(total);
+            
+            // Update cart total for M-Gurush
+            cartTotal = total;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+            
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartSidebar();
+        }
+
+        function reportProduct(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            const reason = prompt(`Report issue with ${item.name}:\nPlease describe your concern.`);
+            if (reason) {
+                alert(`Thank you for reporting. We will review your report for ${item.name}.`);
+            }
+        }
+
+        function removeFromCart(productId) {
+            const item = cart.find(item => item.id === productId);
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartSidebar();
+            
+            if (item) {
+                showNotification(`${item.name} removed from cart`, 'info');
+            }
+        }
+
+        function checkoutWithCOD() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+            
+            const total = calculateCartTotal();
+            cart = [];
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartSidebar();
+            closeCart();
+            
+            showNotification(`Order placed successfully with Cash on Delivery! Total: ${formatCurrency(total)}`, 'success');
+        }
+
+        function checkoutWithMGurush() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+            
+            closeCart();
+            showMGurushPaymentModal();
+        }
+
+        function calculateCartTotal() {
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            const delivery = subtotal > 0 ? 1000 : 0;
+            return subtotal + delivery;
+        }
+
+        // ============================
+        // WISHLIST FUNCTIONS
+        // ============================
+        function toggleWishlist(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            
+            const index = wishlist.findIndex(item => item.id === productId);
+            
+            if (index === -1) {
+                wishlist.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image
+                });
+                showNotification(`${product.name} added to wishlist!`, 'success');
+            } else {
+                wishlist.splice(index, 1);
+                showNotification(`${product.name} removed from wishlist`, 'info');
+            }
+            
+            localStorage.setItem('ngawal_wishlist', JSON.stringify(wishlist));
+            updateWishlistDisplay();
+            
+            // Re-render products to update heart icons
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const button = card.querySelector(`button[onclick*="${productId}"]`);
+                if (button) {
+                    const icon = button.querySelector('i');
+                    icon.classList.toggle('text-red-500', index === -1);
+                }
+            });
+        }
+
+        function isInWishlist(productId) {
+            return wishlist.some(item => item.id === productId);
+        }
+
+        function updateWishlistDisplay() {
+            const wishlistBadge = document.getElementById('wishlistBadge');
+            const mobileWishlistBadge = document.getElementById('mobileWishlistBadge');
+            
+            if (wishlistBadge) {
+                wishlistBadge.textContent = wishlist.length;
+                wishlistBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            }
+            
+            if (mobileWishlistBadge) {
+                mobileWishlistBadge.textContent = wishlist.length;
+                mobileWishlistBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function showWishlist() {
+            window.location.href = 'wishlist.html';
+        }
+
+        // ============================
+        // NAVIGATION FUNCTIONS
+        // ============================
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function showAccount() {
+            window.location.href = 'account.html';
+        }
+
+        function showHelpSupport() {
+            toggleChatbot();
+            setTimeout(() => {
+                addChatMessage("How can I help you with support issues?", 'bot');
+                document.getElementById('chatInput').focus();
+            }, 300);
+        }
+
+        // ============================
+        // UTILITY FUNCTIONS
+        // ============================
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-SS', {
+                style: 'currency',
+                currency: 'SSP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount).replace('SSP', 'SSP');
+        }
+
+        function showCODInfo() {
+            alert('Cash on Delivery (COD)\n\n• Pay when you receive your order\n• Available in all major cities: Juba, Wau, Malakal, Rumbek\n• No additional charges for COD\n• Inspect items before paying\n• Available for orders up to 100,000 SSP\n\nFor orders above 100,000 SSP, please use M-Gurush or bank transfer.');
+        }
+
+        function showSecurityInfo() {
+            alert('Ngawal Security & Protection\n\n• All sellers are verified and approved\n• Secure payment processing\n• Buyer protection guarantee\n• 24/7 customer support\n• Dispute resolution system\n• Data encryption and privacy protection\n\nShop with confidence on Ngawal!');
+        }
+
+        function showLocationMap(locationName, lat, lng) {
+            const modal = document.getElementById('mapModal');
+            const title = document.getElementById('mapTitle');
+            const container = document.getElementById('mapContainer');
+            const info = document.getElementById('locationInfo');
+            
+            // Set modal title
+            title.textContent = `${locationName.charAt(0).toUpperCase() + locationName.slice(1).replace('-', ' ')} Location`;
+            
+            // Create Google Maps iframe
+            const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4000!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s${lat},${lng}!5e0!3m2!1sen!2sss!4v1700000000000!5m2!1sen!2sss`;
+            container.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    style="border:0" 
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="${mapUrl}"
+                    class="rounded-lg"
+                ></iframe>
+            `;
+            
+            // Set location info
+            const locationDetails = {
+                'thongpiny': 'Central Juba pickup point - Available 8AM-6PM daily',
+                'juba-airport': 'International orders pickup - Available 24/7',
+                'munuki': 'Northern Juba pickup point - Available 8AM-6PM daily',
+                'malakal': 'Upper Nile State main pickup point',
+                'wau': 'Western Bahr el Ghazal State main pickup point', 
+                'aweil': 'Northern Bahr el Ghazal State main pickup point',
+                'bor': 'Jonglei State main pickup point',
+                'bentiu': 'Unity State main pickup point'
+            };
+            
+            info.textContent = locationDetails[locationName] || 'Pickup point location';
+            
+            // Show modal
+            modal.classList.remove('hidden');
+        }
+
+        function closeMapModal() {
+            document.getElementById('mapModal').classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const icon = document.getElementById('notificationIcon');
+            const title = document.getElementById('notificationTitle');
+            const msg = document.getElementById('notificationMessage');
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            const colors = {
+                success: 'text-green-500',
+                error: 'text-red-500',
+                warning: 'text-yellow-500',
+                info: 'text-ngawal-accent'
+            };
+            
+            const borderColors = {
+                success: 'border-green-500',
+                error: 'border-red-500',
+                warning: 'border-yellow-500',
+                info: 'border-ngawal-accent'
+            };
+            
+            icon.innerHTML = `<i class="fas ${icons[type]} ${colors[type]} text-xl"></i>`;
+            title.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            msg.textContent = message;
+            
+            toast.querySelector('.border-l-4').className = `border-l-4 ${borderColors[type]}`;
+            
+            toast.classList.remove('translate-x-full');
+            
+            setTimeout(hideNotification, 5000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notificationToast').classList.add('translate-x-full');
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                electronics: 'bg-blue-100',
+                fashion: 'bg-purple-100',
+                food: 'bg-green-100',
+                home: 'bg-yellow-100',
+                beauty: 'bg-pink-100',
+                sports: 'bg-red-100'
+            };
+            return colors[category] || 'bg-gray-100';
+        }
+
+        function getBadgeText(badge, discount) {
+            switch(badge) {
+                case 'new': return 'NEW';
+                case 'sale': return `-${discount}%`;
+                case 'popular': return 'POPULAR';
+                default: return badge.toUpperCase();
+            }
+        }
+
+        function generateStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    stars += '<i class="fas fa-star text-yellow-500"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt text-yellow-500"></i>';
+                } else {
+                    stars += '<i class="far fa-star text-yellow-500"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // ============================
+        // RATING SYSTEM (Keep existing functions from original)
+        // ============================
+        function showRatingModal() {
+            document.getElementById('ratingModal').classList.remove('hidden');
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.add('hidden');
+        }
+
+        function submitRating(type) {
+            const rating = document.querySelector(`input[name="${type}"]:checked`);
+            if (!rating) {
+                showNotification('Please select a rating first', 'warning');
+                return;
+            }
+            
+            const ratingValue = rating.value;
+            const ratingText = {
+                '1': '1 star (Poor)',
+                '2': '2 stars (Fair)',
+                '3': '3 stars (Good)',
+                '4': '4 stars (Very Good)',
+                '5': '5 stars (Excellent)'
+            };
+            
+            showNotification(`Thank you for rating our ${type} service ${ratingText[ratingValue]}!`, 'success');
+            
+            // Reset ratings
+            document.querySelectorAll(`input[name="${type}"]`).forEach(input => {
+                input.checked = false;
+            });
+        }
+
+        function submitDetailedReview() {
+            const overallRating = document.querySelector('input[name="overall"]:checked');
+            const reviewText = document.getElementById('reviewText').value;
+            
+            if (!overallRating) {
+                showNotification('Please select an overall rating', 'warning');
+                return;
+            }
+            
+            if (reviewText.length < 10) {
+                showNotification('Please write a more detailed review (at least 10 characters)', 'warning');
+                return;
+            }
+            
+            showNotification('Thank you for your detailed review! Your feedback helps us improve.', 'success');
+            closeRatingModal();
+            
+            // Reset form
+            document.querySelectorAll('input[name="overall"]').forEach(input => {
+                input.checked = false;
+            });
+            document.getElementById('reviewText').value = '';
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        function rateProduct(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                showNotification(`Opening rating form for "${product.name}"...`, 'info');
+                showRatingModal();
+            }
+        }
+
+        // ============================
+        // AI CHATBOT FUNCTIONS (Keep existing functions)
+        // ============================
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            chatbotOpen = !chatbotOpen;
+            
+            if (chatbotOpen) {
+                chatbotWindow.classList.add('active');
+                document.getElementById('chatInput').focus();
+            } else {
+                chatbotWindow.classList.remove('active');
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) {
+                showNotification('Please type a message first', 'warning');
+                return;
+            }
+            
+            // Add user message
+            addChatMessage(message, 'user');
+            conversationHistory.push({ role: 'user', message: message });
+            
+            // Clear input
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI response after delay
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = generateAIResponse(message);
+                addChatMessage(response, 'bot');
+                conversationHistory.push({ role: 'bot', message: response });
+                
+                // Check if response needs notification
+                if (response.includes('tracking') || response.includes('status') || response.includes('complaint')) {
+                    showNotification('AI Assistant has replied to your query. Check the chat window!', 'info');
+                }
+            }, 1000 + Math.random() * 1500);
+        }
+
+        function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <p>${message}</p>
+                <div class="text-xs text-gray-500 mt-1">${timeString}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function generateAIResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Common queries and responses
+            const responses = {
+                greetings: ["Hello! How can I assist you today?", "Hi there! Welcome to Ngawal. How can I help?", "Greetings! I'm here to help with your shopping needs."],
+                order: ["I can check your order status. Please provide your order number.", "For order tracking, please visit the 'My Orders' section in your account.", "I'll help you track your order. When did you place it?"],
+                payment: ["We accept M-Gurush (MTN mobile money) and Cash on Delivery.", "For payment issues, please contact our support team at support@ngawal.com", "You can try our M-Gurush payment demo by clicking the yellow button on the page."],
+                delivery: ["Delivery usually takes 2-5 business days within major cities.", "For delivery queries, please provide your order number and location.", "We offer free delivery on orders above 50,000 SSP."],
+                complaint: ["I'm sorry to hear about your issue. Please provide details so I can help.", "For complaints, please email complaints@ngawal.com with your order details.", "I'll escalate your complaint to our support team. Can you share more details?"],
+                product: ["I can help you find products. What are you looking for?", "Check our featured products section or use the search bar at the top.", "We have electronics, fashion, food, and home products available."],
+                rating: ["You can rate our services using the rating section on the homepage.", "We value your feedback! Please rate your experience in the 'Rate Our Services' section.", "Your ratings help us improve. You can submit ratings for delivery, support, and product quality."],
+                default: ["I'm not sure I understand. Can you rephrase your question?", "I can help with order status, payments, delivery, and general inquiries.", "You can also contact our human support at support@ngawal.com for complex issues."]
+            };
+            
+            // Determine response type
+            let responseType = 'default';
+            
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                responseType = 'greetings';
+            } else if (lowerMessage.includes('order') || lowerMessage.includes('track') || lowerMessage.includes('status')) {
+                responseType = 'order';
+            } else if (lowerMessage.includes('payment') || lowerMessage.includes('pay') || lowerMessage.includes('money')) {
+                responseType = 'payment';
+            } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping') || lowerMessage.includes('dispatch')) {
+                responseType = 'delivery';
+            } else if (lowerMessage.includes('complaint') || lowerMessage.includes('problem') || lowerMessage.includes('issue')) {
+                responseType = 'complaint';
+            } else if (lowerMessage.includes('product') || lowerMessage.includes('item') || lowerMessage.includes('buy')) {
+                responseType = 'product';
+            } else if (lowerMessage.includes('rate') || lowerMessage.includes('review') || lowerMessage.includes('feedback')) {
+                responseType = 'rating';
+            }
+            
+            // Select random response from appropriate category
+            const responseOptions = responses[responseType];
+            return responseOptions[Math.floor(Math.random() * responseOptions.length)];
+        }
+
+        // ============================
+        // M-GURUSH PAYMENT SYSTEM (Keep existing functions)
+        // ============================
+        function buyWithMGurush(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                showNotification(`Buying ${product.name} with M-Gurush...`, 'info');
+                showMGurushPaymentModal(productId, product.price);
+            }
+        }
+
+        function showMGurushPaymentModal(productId = null, amount = null) {
+            currentProductId = productId;
+            
+            if (amount) {
+                cartTotal = amount;
+            } else if (cart.length > 0) {
+                cartTotal = calculateCartTotal();
+            } else {
+                cartTotal = 15000;
+            }
+            
+            // Create modal HTML if it doesn't exist
+            if (!document.getElementById('mgurushPaymentModal')) {
+                createMGurushModal();
+            }
+            
+            // Update amount display
+            document.getElementById('mgurushAmount').textContent = formatCurrency(cartTotal);
+            
+            // Reset to step 1
+            document.getElementById('mgurushStep1').classList.remove('hidden');
+            document.getElementById('mgurushStep2').classList.add('hidden');
+            document.getElementById('mgurushStep3').classList.add('hidden');
+            document.getElementById('mgurushStep4').classList.add('hidden');
+            
+            // Show modal
+            document.getElementById('mgurushPaymentModal').classList.remove('hidden');
+        }
+
+        function createMGurushModal() {
+            // Modal creation code remains the same as original
+            const modalHTML = `
+                <div id="mgurushPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+                    <div class="bg-white rounded-2xl max-w-md w-full p-6">
+                        <!-- Header -->
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-ngawal-primary flex items-center">
+                                <div class="w-8 h-8 mtn-gradient text-white rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                M-Gurush Payment
+                            </h3>
+                            <button onclick="closeMGurushModal()" class="p-2 hover:bg-gray-100 rounded-lg transition-all">
+                                <i class="fas fa-times text-xl text-gray-600"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Payment Steps -->
+                        <div id="mgurushStep1" class="space-y-4">
+                            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-600">Payment Amount</span>
+                                    <span class="font-bold text-ngawal-primary" id="mgurushAmount">0 SSP</span>
+                                </div>
+                                <div class="text-sm text-blue-700 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Enter your MTN mobile money details
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">MTN Mobile Number</label>
+                                    <input type="tel" id="mgurushPhone" 
+                                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-mtn-yellow"
+                                           placeholder="+211 XXX XXX XXX" 
+                                           value="+211 912 345 678">
+                                    <p class="text-xs text-gray-500 mt-1">Enter your registered MTN number</p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">PIN (4 digits)</label>
+                                    <input type="password" id="mgurushPin" 
+                                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-mtn-yellow"
+                                           placeholder="Enter your 4-digit PIN" 
+                                           maxlength="4"
+                                           value="1234">
+                                    <p class="text-xs text-gray-500 mt-1">Your MTN mobile money PIN</p>
+                                </div>
+                                
+                                <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <i class="fas fa-shield-alt text-yellow-500 mr-3"></i>
+                                    <p class="text-sm text-yellow-700">Your PIN is never stored. Transaction secured by MTN.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-3">
+                                <button onclick="processMGurushPayment()" class="flex-1 mtn-gradient text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-mtn-yellow focus:ring-offset-2 active:scale-95 transition-all duration-150 hover:opacity-90">
+                                    <i class="fas fa-lock mr-2"></i>Pay Now
+                                </button>
+                                <button onclick="closeMGurushModal()" class="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-4 rounded-lg transition-all">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Processing Step -->
+                        <div id="mgurushStep2" class="hidden text-center">
+                            <div class="w-20 h-20 mtn-gradient text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            
+                            <h4 class="text-lg font-bold text-ngawal-primary mb-2">Processing Payment</h4>
+                            <p class="text-gray-600 mb-6">Please wait while we process your M-Gurush payment</p>
+                            
+                            <div class="progress-bar mb-4">
+                                <div id="paymentProgress" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            
+                            <div class="text-sm text-gray-500">
+                                <p class="mb-1">Connecting to MTN network...</p>
+                                <p class="mb-1">Verifying mobile money account...</p>
+                                <p>Processing transaction...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Success Step -->
+                        <div id="mgurushStep3" class="hidden text-center">
+                            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            
+                            <h4 class="text-lg font-bold text-ngawal-primary mb-2">Payment Successful!</h4>
+                            <p class="text-gray-600 mb-6">Your M-Gurush payment has been confirmed</p>
+                            
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                                <p class="text-sm text-green-700 mb-2">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    Transaction ID: <span class="font-mono">MTN-<span id="transactionId">123456</span></span>
+                                </p>
+                                <p class="text-xs text-green-600">SMS confirmation sent to your phone</p>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <button onclick="completeMGurushPayment()" class="w-full bg-ngawal-accent hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-all">
+                                    Continue to Order
+                                </button>
+                                <button onclick="closeMGurushModal()" class="w-full border border-ngawal-primary text-ngawal-primary hover:bg-ngawal-primary hover:text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                                    Shop More
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Failed Step -->
+                        <div id="mgurushStep4" class="hidden text-center">
+                            <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            
+                            <h4 class="text-lg font-bold text-ngawal-primary mb-2">Payment Failed</h4>
+                            <p class="text-gray-600 mb-6" id="failureMessage">Insufficient funds in your M-Gurush account</p>
+                            
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+                                <p class="text-sm text-yellow-700">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span id="retryMessage">Please check your balance and try again</span>
+                                </p>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <button onclick="retryMGurushPayment()" class="w-full mtn-gradient text-white font-semibold py-3 px-4 rounded-lg transition-all">
+                                    Retry Payment
+                                </button>
+                                <button onclick="closeMGurushModal()" class="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-4 rounded-lg transition-all">
+                                    Try Another Method
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        function closeMGurushModal() {
+            document.getElementById('mgurushPaymentModal').classList.add('hidden');
+            currentProductId = null;
+        }
+
+        function processMGurushPayment() {
+            const phone = document.getElementById('mgurushPhone').value;
+            const pin = document.getElementById('mgurushPin').value;
+            
+            // Basic validation
+            if (!phone || phone.length < 10) {
+                showNotification('Please enter a valid MTN number', 'error');
+                document.getElementById('mgurushPhone').classList.add('shake-animation');
+                setTimeout(() => {
+                    document.getElementById('mgurushPhone').classList.remove('shake-animation');
+                }, 500);
+                return;
+            }
+            
+            if (!pin || pin.length !== 4) {
+                showNotification('Please enter a valid 4-digit PIN', 'error');
+                document.getElementById('mgurushPin').classList.add('shake-animation');
+                setTimeout(() => {
+                    document.getElementById('mgurushPin').classList.remove('shake-animation');
+                }, 500);
+                return;
+            }
+            
+            // Show processing screen
+            document.getElementById('mgurushStep1').classList.add('hidden');
+            document.getElementById('mgurushStep2').classList.remove('hidden');
+            
+            // Simulate payment processing
+            let progress = 0;
+            const progressBar = document.getElementById('paymentProgress');
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // Random success/failure (80% success rate)
+                    if (Math.random() > 0.2) {
+                        // Success
+                        setTimeout(() => {
+                            document.getElementById('mgurushStep2').classList.add('hidden');
+                            document.getElementById('mgurushStep3').classList.remove('hidden');
+                            
+                            // Generate random transaction ID
+                            const transactionId = 'MTN-' + Math.floor(100000 + Math.random() * 900000);
+                            document.getElementById('transactionId').textContent = transactionId;
+                            
+                            // Show notification
+                            showNotification('M-Gurush payment successful!', 'success');
+                        }, 500);
+                    } else {
+                        // Failure
+                        setTimeout(() => {
+                            document.getElementById('mgurushStep2').classList.add('hidden');
+                            document.getElementById('mgurushStep4').classList.remove('hidden');
+                            
+                            const failureReasons = [
+                                'Insufficient funds in your M-Gurush account',
+                                'Transaction limit exceeded',
+                                'Network error. Please try again',
+                                'Invalid PIN entered'
+                            ];
+                            const randomReason = failureReasons[Math.floor(Math.random() * failureReasons.length)];
+                            
+                            document.getElementById('failureMessage').textContent = randomReason;
+                            document.getElementById('retryMessage').textContent = 'Please check your details and try again';
+                            
+                            // Show notification
+                            showNotification('Payment failed: ' + randomReason, 'error');
+                        }, 500);
+                    }
+                }
+            }, 200);
+        }
+
+        function completeMGurushPayment() {
+            // If it's a single product purchase
+            if (currentProductId) {
+                addToCart(currentProductId);
+                showNotification('Product purchased successfully with M-Gurush!', 'success');
+            } else if (cart.length > 0) {
+                // Clear cart for checkout
+                cart = [];
+                localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+                updateCartDisplay();
+                closeCart();
+                showNotification('Order placed successfully with M-Gurush!', 'success');
+            }
+            
+            closeMGurushModal();
+        }
+
+        function retryMGurushPayment() {
+            document.getElementById('mgurushStep4').classList.add('hidden');
+            document.getElementById('mgurushStep1').classList.remove('hidden');
+            
+            // Clear PIN field for retry
+            document.getElementById('mgurushPin').value = '';
+        }
+
+        // ============================
+        // CART SIDEBAR FUNCTIONS
+        // ============================
+        function updateCartSidebar() {
+            const cartItems = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+            
+            if (cart.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartSummary.classList.add('hidden');
+                cartItems.innerHTML = '';
+                return;
+            }
+            
+            emptyCart.classList.add('hidden');
+            cartSummary.classList.remove('hidden');
+            
+            let cartHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                cartHTML += `
+                    <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-ngawal-light rounded-lg flex items-center justify-center text-2xl">
+                            ${item.image}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-ngawal-primary">${item.name}</h4>
+                            <p class="text-sm text-gray-600">${formatCurrency(item.price)} each</p>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                                    <i class="fas fa-minus text-xs"></i>
+                                </button>
+                                <span class="w-8 text-center font-medium">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all">
+                                    <i class="fas fa-plus text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-ngawal-accent">${formatCurrency(itemTotal)}</p>
+                            <div class="flex space-x-2 mt-2">
+                                <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-sm font-medium transition-all">
+                                    <i class="fas fa-trash mr-1"></i>Remove
+                                </button>
+                                <button onclick="reportProduct(${item.id})" class="text-gray-500 hover:text-gray-700 text-sm font-medium transition-all">
+                                    <i class="fas fa-flag mr-1"></i>Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = cartHTML;
+            
+            // Update summary
+            const delivery = subtotal > 50000 ? 0 : 2000; // Free delivery over 50,000 SSP
+            const total = subtotal + delivery;
+            
+            document.getElementById('cartSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('cartDelivery').textContent = formatCurrency(delivery);
+            document.getElementById('cartTotal').textContent = formatCurrency(total);
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartSidebar();
+        }
+
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                const item = cart[itemIndex];
+                cart.splice(itemIndex, 1);
+                localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+                updateCartDisplay();
+                updateCartSidebar();
+                showNotification(`${item.name} removed from cart`, 'info');
+            }
+        }
+
+        function reportProduct(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                showNotification(`Report submitted for "${item.name}". We'll review it within 24 hours.`, 'info');
+            }
+        }
+
+        // ============================
+        // UTILITY FUNCTIONS
+        // ============================
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-SS', {
+                style: 'currency',
+                currency: 'SSP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount).replace('SSP', 'SSP ');
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                electronics: 'bg-blue-100',
+                fashion: 'bg-purple-100',
+                food: 'bg-green-100',
+                home: 'bg-yellow-100',
+                beauty: 'bg-pink-100',
+                sports: 'bg-red-100'
+            };
+            return colors[category] || 'bg-gray-100';
+        }
+
+        function getBadgeText(badge, discount) {
+            switch(badge) {
+                case 'sale': return `${discount}% OFF`;
+                case 'new': return 'NEW';
+                case 'popular': return 'POPULAR';
+                default: return badge.toUpperCase();
+            }
+        }
+
+        function generateStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star text-yellow-400"></i>';
+                } else if (i - 0.5 <= rating) {
+                    stars += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+                } else {
+                    stars += '<i class="far fa-star text-yellow-400"></i>';
+                }
+            }
+            return stars;
+        }
+
+        function calculateCartTotal() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        function isInWishlist(productId) {
+            return wishlist.includes(productId);
+        }
+
+        function toggleWishlist(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            
+            const index = wishlist.indexOf(productId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification(`${product.name} removed from wishlist`, 'info');
+            } else {
+                wishlist.push(productId);
+                showNotification(`${product.name} added to wishlist`, 'success');
+            }
+            
+            localStorage.setItem('ngawal_wishlist', JSON.stringify(wishlist));
+            updateWishlistDisplay();
+        }
+
+        function updateWishlistDisplay() {
+            const wishlistBadge = document.getElementById('wishlistBadge');
+            const mobileWishlistBadge = document.getElementById('mobileWishlistBadge');
+            
+            if (wishlistBadge) {
+                wishlistBadge.textContent = wishlist.length;
+                wishlistBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            }
+            
+            if (mobileWishlistBadge) {
+                mobileWishlistBadge.textContent = wishlist.length;
+                mobileWishlistBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // ============================
+        // NOTIFICATION SYSTEM
+        // ============================
+        function showNotification(message, type = 'info') {
+            const notificationToast = document.getElementById('notificationToast');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const notificationIcon = document.getElementById('notificationIcon');
+            
+            // Set icon and title based on type
+            const types = {
+                success: {
+                    icon: 'fas fa-check-circle text-green-500',
+                    title: 'Success'
+                },
+                error: {
+                    icon: 'fas fa-exclamation-circle text-red-500',
+                    title: 'Error'
+                },
+                warning: {
+                    icon: 'fas fa-exclamation-triangle text-yellow-500',
+                    title: 'Warning'
+                },
+                info: {
+                    icon: 'fas fa-info-circle text-blue-500',
+                    title: 'Information'
+                }
+            };
+            
+            const config = types[type] || types.info;
+            notificationIcon.innerHTML = `<i class="${config.icon} text-xl"></i>`;
+            notificationTitle.textContent = config.title;
+            notificationMessage.textContent = message;
+            
+            // Show notification
+            notificationToast.classList.remove('translate-x-full');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 3000);
+        }
+
+        function hideNotification() {
+            const notificationToast = document.getElementById('notificationToast');
+            notificationToast.classList.add('translate-x-full');
+        }
+
+        // ============================
+        // UI HELPER FUNCTIONS
+        // ============================
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showAccount() {
+            showNotification('Account features coming soon!', 'info');
+        }
+
+        function showWishlist() {
+            showNotification('Wishlist page coming soon!', 'info');
+        }
+
+        function showCODInfo() {
+            showNotification('Cash on Delivery available in Juba, Wau, and Malakal', 'info');
+        }
+
+        function showHelpSupport() {
+            showNotification('Help Center: Call +211 123 456 789 or email support@ngawal.com', 'info');
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function checkoutWithCOD() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'warning');
+                return;
+            }
+            
+            showNotification('Order placed with Cash on Delivery!', 'success');
+            cart = [];
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            closeCart();
+        }
+
+        function checkoutWithMGurush() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'warning');
+                return;
+            }
+            
+            showMGurushPaymentModal();
+        }
+
+        function closeMapModal() {
+            document.getElementById('mapModal').classList.add('hidden');
+        }
+
+        function showRatingModal() {
+            document.getElementById('ratingModal').classList.remove('hidden');
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.add('hidden');
+        }
+
+        function submitDetailedReview() {
+            const rating = document.querySelector('input[name="overall"]:checked');
+            const reviewText = document.getElementById('reviewText').value;
+            
+            if (!rating) {
+                showNotification('Please select a rating', 'warning');
+                return;
+            }
+            
+            showNotification('Thank you for your feedback!', 'success');
+            closeRatingModal();
+            
+            // Reset form
+            document.querySelectorAll('input[name="overall"]').forEach(input => {
+                input.checked = false;
+            });
+            document.getElementById('reviewText').value = '';
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        function rateProduct(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                showNotification(`Opening rating form for "${product.name}"...`, 'info');
+                showRatingModal();
+            }
+        }
+    </script>
+</body>
+</html>

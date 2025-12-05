@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - Ngawal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ngawal-primary': '#1a365d',
+                        'ngawal-secondary': '#2c5282',
+                        'ngawal-accent': '#ed8936',
+                        'ngawal-light': '#e2e8f0',
+                        'ngawal-dark': '#0f172a',
+                        'ngawal-success': '#10b981',
+                        'ngawal-warning': '#f59e0b',
+                        'ngawal-error': '#ef4444',
+                        'mtn-yellow': '#FFCC00',
+                        'mtn-brown': '#993300',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+        .shake-animation { animation: shake 0.5s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+    </style>
+</head>
+<body class="bg-ngawal-light min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div class="w-10 h-10 bg-ngawal-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="text-xl font-bold text-ngawal-primary">Ngawal</h1>
+                        <p class="text-xs text-ngawal-secondary">South Sudan Online Shopping</p>
+                    </div>
+                </div>
+                <!-- Back to Home -->
+                <a href="index.html" class="bg-ngawal-accent text-white px-4 py-2 rounded-lg shadow hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                    <i class="fas fa-home mr-2"></i>Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-ngawal-primary mb-6">Your Cart</h2>
+            
+            <!-- Cart Items -->
+            <div id="cartItems" class="space-y-4 mb-6"></div>
+            
+            <!-- Empty Cart -->
+            <div id="emptyCart" class="text-center py-12">
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shopping-cart text-3xl text-gray-400"></i>
+                </div>
+                <p class="text-gray-600">Your cart is empty</p>
+                <p class="text-sm text-gray-500 mt-1">Add some products to get started</p>
+                <a href="index.html" class="inline-block mt-4 bg-ngawal-accent text-white px-4 py-2 rounded-lg shadow hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                    <i class="fas fa-shopping-bag mr-2"></i>Start Shopping
+                </a>
+            </div>
+            
+            <!-- Cart Summary -->
+            <div id="cartSummary" class="bg-white rounded-xl shadow-sm p-6">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="font-medium" id="cartSubtotal">0 SSP</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Delivery</span>
+                        <span class="font-medium" id="cartDelivery">0 SSP</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold pt-2 border-t">
+                        <span class="text-ngawal-primary">Total</span>
+                        <span class="text-ngawal-accent" id="cartTotal">0 SSP</span>
+                    </div>
+                </div>
+                <div class="flex space-x-3 mb-3">
+                    <button onclick="checkoutWithCOD()" class="flex-1 bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                        <i class="fas fa-money-bill-wave mr-2"></i>COD
+                    </button>
+                    <button onclick="checkoutWithMGurush()" class="flex-1 mtn-gradient text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-mtn-yellow focus:ring-offset-2 active:scale-95 transition-all duration-150 hover:opacity-90">
+                        <i class="fas fa-mobile-alt mr-2"></i>M-Gurush
+                    </button>
+                </div>
+                <a href="index.html" class="w-full border border-ngawal-primary text-ngawal-primary hover:bg-ngawal-primary hover:text-white font-semibold py-3 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-ngawal-primary focus:ring-offset-2 active:scale-95 transition-all duration-150 inline-block text-center">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('ngawal_cart')) || [];
+        let cartTotal = 0;
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-SS', {
+                style: 'currency',
+                currency: 'SSP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount).replace('SSP', 'SSP');
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+            if (cart.length === 0) {
+                cartItems.innerHTML = '';
+                emptyCart.style.display = 'block';
+                cartSummary.style.display = 'none';
+                return;
+            }
+            emptyCart.style.display = 'none';
+            cartSummary.style.display = 'block';
+            let subtotal = 0;
+            cartItems.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="bg-white rounded-xl shadow-sm p-6 flex items-center">
+                        <div class="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center text-2xl mr-4">
+                            ${item.image}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-ngawal-primary">${item.name}</h4>
+                            <p class="text-sm text-gray-600">${formatCurrency(item.price)} each</p>
+                            <div class="flex items-center mt-2">
+                                <button type="button" class="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="mx-3 font-medium">${item.quantity}</span>
+                                <button type="button" class="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-ngawal-primary text-lg">${formatCurrency(itemTotal)}</p>
+                            <button type="button" class="text-red-600 text-sm mt-2 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash mr-1"></i>Remove
+                            </button>
+                            <button type="button" class="text-blue-600 text-xs mt-2 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded" onclick="reportProduct(${item.id})">
+                                <i class="fas fa-flag mr-1"></i>Report
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            const delivery = subtotal > 0 ? 1000 : 0;
+            const total = subtotal + delivery;
+            document.getElementById('cartSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('cartDelivery').textContent = formatCurrency(delivery);
+            document.getElementById('cartTotal').textContent = formatCurrency(total);
+            cartTotal = total;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function removeFromCart(productId) {
+            const item = cart.find(item => item.id === productId);
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            if (item) {
+                alert(`${item.name} removed from cart`);
+            }
+        }
+
+        function calculateCartTotal() {
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            const delivery = subtotal > 0 ? 1000 : 0;
+            return subtotal + delivery;
+        }
+
+        function checkoutWithCOD() {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            const total = calculateCartTotal();
+            cart = [];
+            localStorage.setItem('ngawal_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            alert(`Order placed successfully with Cash on Delivery! Total: ${formatCurrency(total)}`);
+            window.location.href = 'index.html';
+        }
+
+        function checkoutWithMGurush() {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            alert('M-Gurush payment modal would appear here (demo).');
+        }
+
+        function reportProduct(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            const reason = prompt(`Report issue with ${item.name}:\nPlease describe your concern.`);
+            if (reason) {
+                alert(`Thank you for reporting. We will review your report for ${item.name}.`);
+            }
+        }
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>

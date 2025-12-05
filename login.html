@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ngawal</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .ngawal-primary { color: #1a365d; }
+        .ngawal-secondary { color: #2c5282; }
+        .ngawal-accent { color: #ed8936; }
+        .bg-ngawal-primary { background-color: #1a365d; }
+        .bg-ngawal-secondary { background-color: #2c5282; }
+        .bg-ngawal-accent { background-color: #ed8936; }
+        .mtn-gradient { background: linear-gradient(135deg, #FFCC00 0%, #993300 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Back Button -->
+        <a href="index.html" class="inline-flex items-center text-ngawal-primary mb-8 hover:text-ngawal-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Home
+        </a>
+
+        <!-- Login Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <!-- Logo -->
+            <div class="flex items-center justify-center mb-8">
+                <div class="w-16 h-16 bg-ngawal-primary rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-2xl">N</span>
+                </div>
+                <div class="ml-4">
+                    <h1 class="text-2xl font-bold text-ngawal-primary">Ngawal</h1>
+                    <p class="text-sm text-gray-600">South Sudan Online Shopping</p>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 text-center mb-2">Welcome Back</h2>
+            <p class="text-gray-600 text-center mb-8">Sign in to your Ngawal account</p>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="email" name="email" required 
+                               class="pl-10 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none transition-all"
+                               placeholder="you@example.com"
+                               value="j.malong@alustudent.com">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <a href="#forgot" class="text-sm text-ngawal-primary hover:text-ngawal-secondary">Forgot password?</a>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" required 
+                               class="pl-10 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none transition-all"
+                               placeholder="••••••••"
+                               value="********">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i id="passwordToggle" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox" 
+                           class="h-4 w-4 text-ngawal-accent focus:ring-ngawal-accent border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                        Remember me
+                    </label>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 active:scale-95 transition-all duration-150">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="my-8">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500">Or continue with</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Login -->
+            <div class="space-y-3">
+                <button onclick="signInWithGoogle()" 
+                        class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition-all">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-5 h-5">
+                    <span>Sign in with Google</span>
+                </button>
+
+                <button onclick="signInWithFacebook()" 
+                        class="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-all">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Sign in with Facebook</span>
+                </button>
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Don't have an account?
+                    <a href="account.html" class="font-semibold text-ngawal-primary hover:text-ngawal-secondary">Create one now</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Demo Notice -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <p class="text-sm text-blue-700">
+                <i class="fas fa-info-circle mr-1"></i>
+                Demo: Click "Sign In" to continue to homepage
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        function signInWithGoogle() {
+            alert('Google sign-in would be implemented here. Redirecting to homepage...');
+            window.location.href = 'index.html';
+        }
+
+        function signInWithFacebook() {
+            alert('Facebook sign-in would be implemented here. Redirecting to homepage...');
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+            
+            // Simple validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // In a real app, you would send this to a backend
+            // For demo purposes, we'll simulate a successful login
+            localStorage.setItem('ngawal_user', email);
+            localStorage.setItem('ngawal_remember', rememberMe);
+            
+            // Show success message
+            alert(`Welcome back! Successfully logged in as ${email}`);
+            
+            // Redirect to homepage
+            window.location.href = 'index.html';
+        });
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedEmail = localStorage.getItem('ngawal_user');
+            if (savedEmail) {
+                document.getElementById('email').value = savedEmail;
+            }
+        });
+    </script>
+</body>
+</html>

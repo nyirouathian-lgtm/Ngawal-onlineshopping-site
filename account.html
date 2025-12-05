@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Ngawal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .ngawal-primary { color: #1a365d; }
+        .bg-ngawal-primary { background-color: #1a365d; }
+        .bg-ngawal-secondary { background-color: #2c5282; }
+        .bg-ngawal-accent { background-color: #ed8936; }
+        .bg-ngawal-light { background-color: #e2e8f0; }
+        .transition-all { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-ngawal-light min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-ngawal-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="text-xl font-bold text-ngawal-primary">Ngawal</h1>
+                        <p class="text-xs text-gray-600">My Account</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="hidden md:flex items-center space-x-2 text-ngawal-primary hover:text-ngawal-secondary">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="cart.html" class="relative p-2">
+                        <i class="fas fa-shopping-cart text-xl text-ngawal-primary"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-ngawal-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </a>
+                    
+                    <!-- Mobile Menu -->
+                    <button onclick="window.history.back()" class="md:hidden p-2">
+                        <i class="fas fa-arrow-left text-xl text-ngawal-primary"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-20 h-20 bg-ngawal-primary text-white rounded-full flex items-center justify-center text-2xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 mb-1" id="userName">Welcome to Ngawal!</h1>
+                            <p class="text-gray-600" id="userEmail">Sign in to access your account</p>
+                            <div class="flex items-center mt-2">
+                                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full mr-2">
+                                    <i class="fas fa-star mr-1"></i>Member Since 2024
+                                </span>
+                                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
+                                    <i class="fas fa-check mr-1"></i>Verified
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <button onclick="logout()" class="px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 rounded-lg transition-all">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                        <a href="index.html" class="px-4 py-2 bg-ngawal-primary hover:bg-ngawal-secondary text-white rounded-lg transition-all">
+                            <i class="fas fa-shopping-cart mr-2"></i>Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Account Management -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                            <div class="text-2xl font-bold text-ngawal-primary mb-1" id="ordersCount">0</div>
+                            <div class="text-sm text-gray-600">Orders</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                            <div class="text-2xl font-bold text-green-600 mb-1" id="wishlistCount">0</div>
+                            <div class="text-sm text-gray-600">Wishlist</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                            <div class="text-2xl font-bold text-blue-600 mb-1">₵0</div>
+                            <div class="text-sm text-gray-600">Ngawal Credits</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                            <div class="text-2xl font-bold text-purple-600 mb-1" id="reviewsCount">0</div>
+                            <div class="text-sm text-gray-600">Reviews</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">Recent Orders</h2>
+                            <a href="orders.html" class="text-ngawal-primary hover:text-ngawal-secondary text-sm">
+                                View All <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                        
+                        <div id="recentOrders" class="space-y-4">
+                            <!-- Orders will be loaded here -->
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-shopping-bag text-3xl mb-3"></i>
+                                <p>No orders yet</p>
+                                <p class="text-sm">Start shopping to see your orders here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">Account Settings</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-user-edit"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">Personal Information</h3>
+                                        <p class="text-sm text-gray-600">Update your name, email, and phone number</p>
+                                    </div>
+                                </div>
+                                <button onclick="editPersonalInfo()" class="text-ngawal-primary hover:text-ngawal-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">Address Book</h3>
+                                        <p class="text-sm text-gray-600">Manage your delivery addresses</p>
+                                    </div>
+                                </div>
+                                <button onclick="manageAddresses()" class="text-ngawal-primary hover:text-ngawal-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">Security</h3>
+                                        <p class="text-sm text-gray-600">Change password and security settings</p>
+                                    </div>
+                                </div>
+                                <button onclick="changePassword()" class="text-ngawal-primary hover:text-ngawal-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Login/Register -->
+                <div class="space-y-8">
+                    <!-- Login Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6" id="loginSection">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">Sign In</h2>
+                        
+                        <form id="loginForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="you@example.com"
+                                       value="j.malong@alustudent.com">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <input type="password" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="••••••••"
+                                       value="********">
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember" 
+                                       class="h-4 w-4 text-ngawal-accent focus:ring-ngawal-accent border-gray-300 rounded">
+                                <label for="remember" class="ml-2 text-sm text-gray-700">
+                                    Remember me
+                                </label>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 transition-all duration-150">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Sign In
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 text-center">
+                            <a href="#forgot" class="text-sm text-ngawal-primary hover:text-ngawal-secondary">
+                                Forgot password?
+                            </a>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button onclick="signInWithGoogle()" 
+                                    class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition-all">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-5 h-5">
+                                <span>Sign in with Google</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Register Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6" id="registerSection">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">New to Ngawal?</h2>
+                        
+                        <form id="registerForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="John Deng">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="you@example.com">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <input type="password" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="••••••••">
+                                <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                <input type="password" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ngawal-accent focus:border-transparent focus:outline-none"
+                                       placeholder="••••••••">
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" required 
+                                       class="mt-1 h-4 w-4 text-ngawal-accent focus:ring-ngawal-accent border-gray-300 rounded">
+                                <label class="ml-2 text-sm text-gray-700">
+                                    I agree to the <a href="#" class="text-ngawal-primary hover:underline">Terms & Conditions</a> and <a href="#" class="text-ngawal-primary hover:underline">Privacy Policy</a>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-ngawal-primary hover:bg-ngawal-secondary text-white font-semibold py-3 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-ngawal-accent focus:ring-offset-2 transition-all duration-150">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Create Account
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="text-sm text-gray-600">
+                                By creating an account, you can:
+                            </p>
+                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                                <li><i class="fas fa-check text-green-500 mr-1"></i> Track orders</li>
+                                <li><i class="fas fa-check text-green-500 mr-1"></i> Save favorites</li>
+                                <li><i class="fas fa-check text-green-500 mr-1"></i> Faster checkout</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-ngawal-dark text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Ngawal Account</h3>
+                    <p class="text-gray-400">Manage your shopping experience</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="text-gray-400 hover:text-white">Home</a>
+                    <a href="wishlist.html" class="text-gray-400 hover:text-white">Wishlist</a>
+                    <a href="become-seller.html" class="text-gray-400 hover:text-white">Become a Seller</a>
+                    <a href="#help" class="text-gray-400 hover:text-white">Help Center</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2024 Ngawal Online Shopping. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in
+        const savedUser = localStorage.getItem('ngawal_user');
+        const wishlist = JSON.parse(localStorage.getItem('ngawal_wishlist')) || [];
+        const cart = JSON.parse(localStorage.getItem('ngawal_cart')) || [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            updateUserInfo();
+            updateStats();
+            
+            // Event listeners for forms
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+        });
+
+        function updateUserInfo() {
+            if (savedUser) {
+                try {
+                    // Try to parse as JSON first
+                    let userData;
+                    try {
+                        userData = JSON.parse(savedUser);
+                    } catch {
+                        // If it's not JSON, treat it as email
+                        userData = { email: savedUser, name: savedUser.split('@')[0] };
+                    }
+                    
+                    const userName = userData.name || userData.email?.split('@')[0] || 'User';
+                    const userEmail = userData.email || savedUser;
+                    const joinedDate = userData.joined ? new Date(userData.joined).getFullYear() : new Date().getFullYear();
+                    
+                    document.getElementById('userName').textContent = `Welcome, ${userName}!`;
+                    document.getElementById('userEmail').textContent = userEmail;
+                    
+                    // Update member since year
+                    const memberBadge = document.querySelector('.bg-green-100');
+                    if (memberBadge) {
+                        memberBadge.innerHTML = `<i class="fas fa-star mr-1"></i>Member Since ${joinedDate}`;
+                    }
+                    
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('registerSection').style.display = 'none';
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    // Fallback to simple email display
+                    document.getElementById('userName').textContent = `Welcome, ${savedUser.split('@')[0]}!`;
+                    document.getElementById('userEmail').textContent = savedUser;
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('registerSection').style.display = 'none';
+                }
+            } else {
+                document.getElementById('userName').textContent = 'Welcome to Ngawal!';
+                document.getElementById('userEmail').textContent = 'Sign in to access your account';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+            
+            const cartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('ordersCount').textContent = cartItems > 0 ? '1+' : '0';
+        }
+
+        function updateCartBadge() {
+            const cartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            
+            if (badge) {
+                badge.textContent = cartItems;
+                badge.style.display = cartItems > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Save user to localStorage
+            localStorage.setItem('ngawal_user', email);
+            localStorage.setItem('ngawal_remember', document.getElementById('remember').checked);
+            
+            // Show success
+            alert(`Welcome back! Successfully logged in as ${email}`);
+            
+            // Update UI
+            updateUserInfo();
+            updateStats();
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = this.querySelectorAll('input[type="text"]')[0].value;
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelectorAll('input[type="password"]')[0].value;
+            const confirmPassword = this.querySelectorAll('input[type="password"]')[1].value;
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Save user to localStorage
+            localStorage.setItem('ngawal_user', email);
+            localStorage.setItem('ngawal_user_name', name);
+            
+            // Show success
+            alert(`Welcome to Ngawal, ${name}! Your account has been created.`);
+            
+            // Update UI
+            updateUserInfo();
+            updateStats();
+        }
+
+        function signInWithGoogle() {
+            alert('Google sign-in would be implemented here. For demo, logging in...');
+            localStorage.setItem('ngawal_user', 'j.malong@alustudent.com');
+            updateUserInfo();
+            updateStats();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('ngawal_user');
+                localStorage.removeItem('ngawal_user_name');
+                updateUserInfo();
+                updateStats();
+                alert('You have been logged out successfully.');
+            }
+        }
+
+        function editPersonalInfo() {
+            alert('Personal info editing feature would open here');
+        }
+
+        function manageAddresses() {
+            alert('Address management feature would open here');
+        }
+
+        function changePassword() {
+            alert('Password change feature would open here');
+        }
+    </script>
+</body>
+</html>
