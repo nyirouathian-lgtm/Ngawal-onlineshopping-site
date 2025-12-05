@@ -1,4 +1,5 @@
 # 🛍️ Ngawal - South Sudan Online Shopping Platform
+<img width="1024" height="1024" alt="Image" src="https://github.com/user-attachments/assets/e19f5bdf-5e18-4044-9e0c-fffd20bddb68" />
 ## 📋 Table of Contents
 - [Project Overview](#project-overview)
 - [Features](#features)
