@@ -21,6 +21,12 @@
 ### 🎯 Mission
 To revolutionize online shopping in South Sudan by providing a secure, user-friendly platform that supports local businesses and makes e-commerce accessible to everyone.
 
+SCREENSHOT DEMO
+![Image](https://github.com/user-attachments/assets/4b6f8aea-9cec-4951-93fa-1ec382b46d5c)
+![Image](https://github.com/user-attachments/assets/99911bd2-27cb-4d80-b43c-47027a73fc22)
+![Image](https://github.com/user-attachments/assets/d529ba5c-e10c-4bdf-a28d-ff5e16073bc0)
+![Image](https://github.com/user-attachments/assets/78e57d0e-26a6-4289-bc5e-ced968f68bbb)
+
 ### ✨ Key Highlights
 - **Localized Solutions**: Built for South Sudanese market needs
 - **Multiple Payment Options**: M-Gurush (MTN) and Cash on Delivery
